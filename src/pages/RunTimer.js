@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 
 
 import p5 from 'p5';
-import 'p5/lib/addons/p5.sound';
 
 import './RunTimer.css';
 import queryString from 'querystring'
@@ -104,12 +103,12 @@ class RunTimer extends Component {
             return min * perc / 100;
         }
         p.preload = () => {
-            p.font = p.loadFont("/assets/helvectica-neue.otf");
-            p.beep = p.loadSound("/server/beep.mp3");
+            // p.font = p.loadFont("/assets/helvectica-neue.otf");
+            // p.beep = p.loadSound("/server/beep.mp3");
         }
         p.setup = () => {
             p.createCanvas(window.innerWidth, window.innerHeight);
-            p.textFont(p.font);
+            p.textFont("Helvetica Neue");
             p.textAlign(p.CENTER, p.CENTER);
             p.noStroke();
         }

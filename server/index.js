@@ -12,6 +12,9 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 */
+
+app.use(express.static(__dirname));
+
 app.get('/assets/helvectica-neue.otf', (req, res) => {
     res.sendFile(__dirname + '/helvectica-neue.otf');
 });
