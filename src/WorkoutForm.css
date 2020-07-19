@@ -1,0 +1,50 @@
+#time-rep-selector input {
+    background: white;
+    color: black;
+    border-color: grey;
+}
+
+#time-rep-selector input:hover {
+    background: #ddd;
+    color: black;
+    border-color: grey;
+}
+
+.length-group input {
+    padding: 20px;
+}
+
+.length-group {
+    margin-bottom: 20px;
+}
+
+.row {
+    display:flex;
+}
+
+.column {
+    flex: 50%;
+    margin: 2%;
+}
+
+#time-rep-selector input.selected {
+    background-color: #0366EE;
+    color: white;
+}
+
+.disabled, .disabled:hover, .disabled:focus {
+    background-color: grey;
+    border-color: grey;
+}
+
+.error, .error:hover {
+    border: 1px solid red;
+}
+
+.error:focus {
+    border: 1px solid blue;
+}
+
+#endRepeatButton {
+    margin-left: 20px;
+}
