@@ -71,7 +71,7 @@ class EditWorkout extends Component {
                         element]
                 }
             }, () => {
-                console.log(this.state.workout);
+                // console.log(this.state.workout);
             });
         }
         this.setState({
@@ -89,7 +89,6 @@ class EditWorkout extends Component {
 
     render() {
     if (this.state.redirect) {
-        console.log("yeet");
         return <Redirect to={this.state.redirect} />
     }
       return (

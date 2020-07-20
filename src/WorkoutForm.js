@@ -104,7 +104,8 @@ class WorkoutForm extends Component {
         this.setState({
             isRepeat: false,
             isRest: false,
-            number: parseFloat(document.getElementById("lengthNum").value)
+            number: parseFloat(document.getElementById("lengthNum").value),
+            isTime: document.getElementById("time1").classList.contains("selected")
         }, () => {
             this.props.addElement(this.state, this.repeatSection); // change -1 to the latest parent
         });

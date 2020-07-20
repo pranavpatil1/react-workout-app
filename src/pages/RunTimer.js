@@ -34,10 +34,10 @@ class RunTimer extends Component {
                 }
                 i ++;
             }
+            console.log(this.workout);
         } else {
             this.state.redirect = "/";
         }
-        console.log(this.workout);
         // should add some sort of ending slide
         // need a check if the id parameter is not there or the workout doesnt exist
     }
@@ -45,7 +45,7 @@ class RunTimer extends Component {
     sketch_canvas (p) {
         // -1 = haven't started
         // 0-end = exercises/repeats
-        p.stage = 10;
+        p.stage = -1;
         p.nextColor = {};
         p.clickTime = -1;
         p.startTime = -1;
@@ -160,7 +160,7 @@ class RunTimer extends Component {
             } else if (p.stage >= p.workout.length) {
                 p.background(p.toColor(p.green));
                 p.fill(255);
-                p.size(p.vmin(10));
+                p.textSize(p.vmin(10));
                 p.textAlign(p.CENTER, p.CENTER);
                 p.text("fin", mid.x, mid.y);
             } else {
@@ -189,7 +189,7 @@ class RunTimer extends Component {
                     
                     if (size > 0) {
                         p.textSize(size * 0.25);
-                        for (var i = 0; i < element.number; i ++) {
+                        for (var i = 0; i < element.children; i ++) {
                             circuits += (i + 1) + ". ";
                             if (p.workout[p.stage + 1 + i].isRest) {
                                 circuits += p.workout[p.stage + 1 + i].number + " sec rest";
@@ -292,7 +292,8 @@ class RunTimer extends Component {
                             p.textSize(size * 0.4);
                             // p.text(element.desc, size / 5, size / 5 + size * 0.4);
                             p.textAlign(p.RIGHT, p.BOTTOM);
-                            p.text("?", window.innerWidth - size/10, window.innerHeight - size/10);
+                            if (element.desc !== "")
+                                p.text("?", window.innerWidth - size/10, window.innerHeight - size/10);
                         }
                         p.textSize(size * 0.3);
                         
@@ -404,7 +405,7 @@ class RunTimer extends Component {
                             }
                         }
                     }
-                    if (!element.isRest && !element.isRepeat) {
+                    if (!element.isRest && !element.isRepeat && element.desc !== "") {
                         if (p.mouseX > window.innerWidth - size * 0.5 && p.mouseY > window.innerHeight - size * 0.65) {
                             p.popup = true;
                             p.popupText = [element.name, element.desc];

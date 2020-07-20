@@ -7,7 +7,6 @@ const WorkoutTableHeader = () => {
         <tr>
           <th colSpan="2">Name</th>
           <th>Description</th>
-          <th>Remove</th>
         </tr>
       </thead>
     )
@@ -24,9 +23,9 @@ const WorkoutTableHeader = () => {
             } else if (!row.isRest) {
                 name = row.name;
                 if (row.isTime) {
-                    desc = row.number + " reps";
-                } else {
                     desc = row.number + " seconds";
+                } else {
+                    desc = row.number + " reps";
                 }
                 if (row.desc !== "") {
                     desc += ". " + row.desc;
@@ -39,7 +38,6 @@ const WorkoutTableHeader = () => {
             var namePlaceholder = <td className="space"></td>;
             var other = [
                 <td>{desc}</td>,
-                <td className="delete"><span  onClick={() => console.log("yeet")} className="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
             ];
             // placeholder is separate so that some elements are indented in
             // this is temporary, will be replaced by SortableJS
@@ -49,7 +47,6 @@ const WorkoutTableHeader = () => {
             } else {
                 fragment = [nameMain, namePlaceholder, ...other];
             }
-            console.log(index);
             const main = (
                 <tr key={index} className={`workoutRow${row.isRepeat ? " repeat": ""}${shift > 0 ? " child": ""}`}>
                     {fragment}
