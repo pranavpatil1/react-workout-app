@@ -109,6 +109,7 @@ class RunTimer extends Component {
         p.setup = () => {
             p.createCanvas(window.innerWidth, window.innerHeight);
             p.textFont("Helvetica Neue");
+            p.text("", 0, 0);
             p.textAlign(p.CENTER, p.CENTER);
             p.noStroke();
         }
@@ -117,7 +118,6 @@ class RunTimer extends Component {
             var size, time;
             if (p.stage === -1) {
                 p.background(p.toColor(p.green));
-
                 size = p.vmin(77);
                 time = 0;
                 if (p.clickTime !== -1) {
@@ -145,16 +145,20 @@ class RunTimer extends Component {
                         p.timerStart = -1;
                     }
                 }
-                p.textSize(size);
-                p.fill(p.toColor(p.green));
-                p.textAlign(p.CENTER, p.CENTER);
-                p.text("START", mid.x, mid.y);
 
-                p.fill(255);
-                p.textAlign(p.LEFT, p.TOP);
-                p.textSize(size * 0.4);
-                p.text(p.name, p.vmin(3), p.vmin(2.5));
+                if (size > 0) {
+                    p.textSize(size);
+                    p.fill(p.toColor(p.green));
+                    p.textAlign(p.CENTER, p.CENTER);
+                    p.text("START", mid.x, mid.y);
 
+                    p.fill(255);
+                    p.textAlign(p.LEFT, p.TOP);
+                    p.textSize(size * 0.4);
+                    p.text(p.name, p.vmin(3), p.vmin(2.5));
+                }
+
+/**/
             } else if (p.stage >= p.workout.length) {
                 p.background(p.toColor(p.green));
                 p.fill(255);

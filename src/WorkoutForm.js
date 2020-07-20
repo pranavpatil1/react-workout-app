@@ -113,17 +113,11 @@ class WorkoutForm extends Component {
 
     validateRest = () => {
         var error = false;
-        if (document.getElementById("exerciseName").value === "") {
-            document.getElementById("exerciseName").classList.add("error");
+        if (document.getElementById("restTime").value === "" || parseFloat(document.getElementById("restTime").value) < 0) {
+            document.getElementById("restTime").classList.add("error");
             error = true;
         } else {
-            document.getElementById("exerciseName").classList.remove("error");
-        }
-        if (document.getElementById("lengthNum").value === "" || parseFloat(document.getElementById("lengthNum").value) < 0) {
-            document.getElementById("lengthNum").classList.add("error");
-            error = true;
-        } else {
-            document.getElementById("lengthNum").classList.remove("error");
+            document.getElementById("restTime").classList.remove("error");
         }
         return error;
     }

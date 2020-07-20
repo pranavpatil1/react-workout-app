@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
+
 import WorkoutTable from '../WorkoutTable'
 import WorkoutForm from '../WorkoutForm'
+
 import queryString from 'querystring'
 
 class EditWorkout extends Component {
@@ -9,12 +12,25 @@ class EditWorkout extends Component {
             name: "",
             job: "",
             data: []
-        }
+        },
+        redirect: null
     };
 
     componentDidMount () {
         // need a check if the id parameter is not there or the workout doesnt exist
+        if (this.props.search.length === 0) {
+            this.setState({
+                redirect:"/"
+            });
+            return;
+        }
         this.index = queryString.parse(this.props.search.substring(1)).id;
+        if (this.index === undefined || this.index >= this.props.workouts.length) {
+            this.setState({
+                redirect:"/"
+            });
+            return;
+        }
         var workout = {...this.props.workouts[this.index]};
         console.log(workout);
         workout.data = [...workout.data];
@@ -55,6 +71,10 @@ class EditWorkout extends Component {
     }
 
     render() {
+    if (this.state.redirect) {
+        console.log("yeet");
+        return <Redirect to={this.state.redirect} />
+    }
       return (
           <div className="container">
             <h1>Edit Workout: {this.state.workout.name}</h1>

@@ -15,7 +15,7 @@ app.get('/api/greeting', (req, res) => {
 
 app.use(express.static(__dirname));
 
-app.get('/assets/helvectica-neue.otf', (req, res) => {
+app.get('/src/assets/helvectica-neue.otf', (req, res) => {
     res.sendFile(__dirname + '/helvectica-neue.otf');
 });
 app.get('/server/beep.mp3', (req, res) => {
