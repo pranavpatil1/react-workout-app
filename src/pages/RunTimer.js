@@ -45,7 +45,7 @@ class RunTimer extends Component {
     sketch_canvas (p) {
         // -1 = haven't started
         // 0-end = exercises/repeats
-        p.stage = -1;
+        p.stage = 10;
         p.nextColor = {};
         p.clickTime = -1;
         p.startTime = -1;
@@ -157,14 +157,12 @@ class RunTimer extends Component {
                     p.textSize(size * 0.4);
                     p.text(p.name, p.vmin(3), p.vmin(2.5));
                 }
-
-/**/
             } else if (p.stage >= p.workout.length) {
                 p.background(p.toColor(p.green));
                 p.fill(255);
                 p.size(p.vmin(10));
                 p.textAlign(p.CENTER, p.CENTER);
-                p.text("WORKOUT\nDONE", mid.x, mid.y);
+                p.text("fin", mid.x, mid.y);
             } else {
                 var element = p.workout[p.stage];
 
