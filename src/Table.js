@@ -32,7 +32,7 @@ const TableHeader = () => {
                 </Link>
             </td>
             <td>
-            <span  onClick={() => props.removeWorkout(index)} className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            <span  onClick={() => props.removeWorkout(index)} className="glyphicon glyphicon-trash clickable" aria-hidden="true"></span>
             </td>
         </tr>
         )

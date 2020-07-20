@@ -203,7 +203,7 @@ class WorkoutForm extends Component {
                                 <input onClick={this.setTimeMode} value="Time" name="time" id="time1" type="button" className="btn btn-default selected" />
                             </div>
                             <div className="btn-group" role="group">
-                                <input onClick={this.setRepMode} value="# of Reps" name="time" id="time2" type="button" className="btn btn-default" />
+                                <input onClick={this.setRepMode} value="Reps" name="time" id="time2" type="button" className="btn btn-default" />
                             </div>
                         </div>
 

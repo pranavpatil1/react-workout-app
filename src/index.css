@@ -26,6 +26,11 @@
  *    without disabling user zoom.
  */
 
+:root {
+    --main-color: #6ebbff;
+    --hover-color: #4494db;
+}
+
  html {
     -ms-text-size-adjust: 100%;
     /* 2 */
@@ -259,7 +264,7 @@
       font-size: 1.25rem; } }
   
   a {
-    color: #0366EE;
+    color: var(--main-color);
     text-decoration: none; }
     a:hover, a:active, a:focus {
       color: #0246a2;
@@ -474,15 +479,22 @@
     width: 1px;
     overflow: hidden; }
   
+.clickable {
+    cursor: pointer;
+    color: var(--main-color);
+}
+.clickable:hover {
+    color: var(--hover-color);
+}
 
   /* Buttons
     =============== */
   .button, a.button, button, [type=submit], [type=reset], [type=button] {
     -webkit-appearance: none;
     display: inline-block;
-    border: 1px solid #0366EE;
+    border: 1px solid var(--main-color);
     border-radius: 4px;
-    background: #0366EE;
+    background: var(--main-color);
     color: #ffffff;
     font-weight: 600;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica, Helvetica Neue, Arial, sans-serif;
@@ -497,14 +509,14 @@
     line-height: 1; }
   
   .button:hover, a.button:hover, button:hover, [type=submit]:hover, [type=reset]:hover, [type=button]:hover {
-    border: 1px solid #0250bc;
-    background: #0250bc;
+    border: 1px solid var(--hover-color);
+    background: var(--hover-color);
     color: #ffffff;
     text-decoration: none; }
   
   .button:focus, .button:active, a.button:focus, a.button:active, button:focus, button:active, [type=submit]:focus, [type=submit]:active, [type=reset]:focus, [type=reset]:active, [type=button]:focus, [type=button]:active {
-    border: 1px solid #0250bc;
-    background: #0250bc;
+    border: 1px solid var(--hover-color);
+    background: var(--hover-color);
     color: #ffffff;
     text-decoration: none; }
   
@@ -570,7 +582,7 @@
     border: 1px solid #b4b4b4; }
   
   [type=color]:focus, [type=color]:active, [type=date]:focus, [type=date]:active, [type=datetime]:focus, [type=datetime]:active, [type=datetime-local]:focus, [type=datetime-local]:active, [type=email]:focus, [type=email]:active, [type=month]:focus, [type=month]:active, [type=number]:focus, [type=number]:active, [type=password]:focus, [type=password]:active, [type=search]:focus, [type=search]:active, [type=tel]:focus, [type=tel]:active, [type=text]:focus, [type=text]:active, [type=url]:focus, [type=url]:active, [type=week]:focus, [type=week]:active, [type=time]:focus, [type=time]:active, select:focus, select:active, textarea:focus, textarea:active {
-    border: 1px solid #0366EE;
+    border: 1px solid var(--main-color);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 6px #8cbcfe; }
   
   textarea {

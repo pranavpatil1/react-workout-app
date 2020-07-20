@@ -115,7 +115,7 @@ class RunTimer extends Component {
         }
         p.draw = () => {
             var mid = {x: window.innerWidth/2, y: window.innerHeight/2};
-            var size, time;
+            var size, time, circSize;
             if (p.stage === -1) {
                 p.background(p.toColor(p.green));
                 size = p.vmin(77);
@@ -184,7 +184,7 @@ class RunTimer extends Component {
                     p.background(p.toColor(bkgrdColor));
 
                     p.fill(p.transColor(p.white, p.blue, Math.pow(Date.now() - p.clickTime, 2)/250000));
-                    var circSize = 0;
+                    circSize = 0;
                     if (Date.now() - p.clickTime < 500) {
                         circSize = 5 * p.vmin(100) * Math.pow(Date.now() - p.clickTime, 2)/250000;
                     } else if (p.clickTime !== -1) {
@@ -307,7 +307,7 @@ class RunTimer extends Component {
                     if (p.dist(mid.x, mid.y, p.mouseX, p.mouseY) < size * 1.75) {
                         p.fill(240);
                     }
-                    var circSize = p.vmin(20);
+                    circSize = p.vmin(20);
                     if (Date.now() - p.startTime < 500) {
                         circSize = circSize * Math.pow(Date.now() - p.startTime, 2)/250000;
                     }

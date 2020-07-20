@@ -1,0 +1,17 @@
+#header {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+
+    background-color: #6ebbff;
+    color: white;
+    font-size: 5vmin;
+    width: 100%;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica, Helvetica Neue, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.headerItem {
+    font-family: inherit;
+}
