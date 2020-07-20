@@ -45,7 +45,7 @@ class RunTimer extends Component {
     sketch_canvas (p) {
         // -1 = haven't started
         // 0-end = exercises/repeats
-        p.stage = 2;
+        p.stage = -1;
         p.nextColor = {};
         p.clickTime = -1;
         p.startTime = -1;
