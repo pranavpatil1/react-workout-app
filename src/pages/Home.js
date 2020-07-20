@@ -11,6 +11,7 @@ class Home extends Component {
             <div className="container">
                 <h2>Create a workout</h2>
                 <Form handleSubmit={this.props.handleSubmit} />
+                <h2>Workouts</h2>
                 <Table workoutData={this.props.workouts} removeWorkout={this.props.removeWorkout}/>
             </div>
             </>

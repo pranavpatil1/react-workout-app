@@ -338,16 +338,16 @@
     padding: 0 1rem; }
   
   .container, .small-container, .medium-container {
-    max-width: 1200px;
+    max-width: 1000px;
     padding: 0 1rem;
     margin-left: auto;
     margin-right: auto; }
   
   .small-container {
-    max-width: 800px; }
+    max-width: 600px; }
   
   .medium-container {
-    max-width: 1000px; }
+    max-width: 800px; }
   
   .content-section {
     padding: 30px 0; }
