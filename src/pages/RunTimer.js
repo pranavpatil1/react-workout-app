@@ -45,7 +45,7 @@ class RunTimer extends Component {
     sketch_canvas (p) {
         // -1 = haven't started
         // 0-end = exercises/repeats
-        p.stage = -1;
+        p.stage = 2;
         p.nextColor = {};
         p.clickTime = -1;
         p.startTime = -1;
@@ -183,6 +183,46 @@ class RunTimer extends Component {
                     bkgrdColor = p.orange;
                     p.background(p.toColor(bkgrdColor));
 
+                    
+                    p.textAlign(p.LEFT, p.TOP);
+                    p.fill(255);
+
+                    var circuits = "";
+                    
+                    if (size > 0) {
+                        p.textSize(size * 0.25);
+                        for (var i = 0; i < element.number; i ++) {
+                            circuits += (i + 1) + ". ";
+                            if (p.workout[p.stage + 1 + i].isRest) {
+                                circuits += p.workout[p.stage + 1 + i].number + " sec rest";
+                            } else {
+                                circuits += p.workout[p.stage + 1 + i].name + 
+                                    ": " + p.workout[p.stage + 1 + i].number + (p.workout[p.stage + 1 + i].isTime ? " sec" : " reps");
+                            }
+                            circuits += "\n";
+                        }
+                        // remove trailing newline
+                        circuits = circuits.substr(0, circuits.length - 1);
+                        var summaryHeight = p.getWrapLines(circuits, size * 3.3, size * 0.25) * size * 0.25 * 1.23;
+
+                        p.fill(255);
+                        p.textAlign(p.LEFT);
+                        p.text(circuits, mid.x - size * 0.8, mid.y - summaryHeight / 2, size * 3.3, size * 5);
+
+                        p.textSize(size * 0.3);
+                        p.text(element.name, size * 0.1, size * 0.1);
+
+                        p.textAlign(p.RIGHT);
+                        p.text(element.number + " repeats", mid.x - size, mid.y - summaryHeight / 2);
+
+                        p.textSize(size * 0.85);
+                        if (p.mouseX > mid.x - size * 0.85 && p.mouseX < mid.x + size * 0.85 && p.mouseY > window.innerHeight - size) {
+                            p.textSize (size);
+                        }
+                        p.textAlign(p.CENTER, p.BOTTOM)
+                        p.text("GO", mid.x, window.innerHeight - size * 0.1);
+                    }
+
                     p.fill(p.transColor(p.white, p.blue, Math.pow(Date.now() - p.clickTime, 2)/250000));
                     circSize = 0;
                     if (Date.now() - p.clickTime < 500) {
@@ -196,46 +236,11 @@ class RunTimer extends Component {
                         if (p.stage < p.workout.length && p.workout[p.stage].isRest) {
                             p.timerStart = Date.now();
                         }
+                        circSize = 5 * p.vmin(100);
                     }
 
-                    p.ellipse(mid.x, window.innerHeight, circSize, circSize);
-
-                    p.textAlign(p.LEFT, p.TOP);
-                    p.fill(255);
-
-                    var circuits = "";
-                    
-                    p.textSize(size * 0.25);
-                    for (var i = 0; i < element.number; i ++) {
-                        circuits += (i + 1) + ". ";
-                        if (p.workout[p.stage + 1 + i].isRest) {
-                            circuits += p.workout[p.stage + 1 + i].number + " sec rest";
-                        } else {
-                            circuits += p.workout[p.stage + 1 + i].name + 
-                                ": " + p.workout[p.stage + 1 + i].number + (p.workout[p.stage + 1 + i].isTime ? " sec" : " reps");
-                        }
-                        circuits += "\n";
-                    }
-                    // remove trailing newline
-                    circuits = circuits.substr(0, circuits.length - 1);
-                    var summaryHeight = p.getWrapLines(circuits, size * 3.3, size * 0.25) * size * 0.25 * 1.23;
-
-                    p.fill(255);
-                    p.textAlign(p.LEFT);
-                    p.text(circuits, mid.x - size * 0.8, mid.y - summaryHeight / 2, size * 3.3, size * 5);
-
-                    p.textSize(size * 0.3);
-                    p.text(element.name, size * 0.1, size * 0.1);
-
-                    p.textAlign(p.RIGHT);
-                    p.text(element.number + " repeats", mid.x - size, mid.y - summaryHeight / 2);
-
-                    p.textSize(size * 0.85);
-                    if (p.mouseX > mid.x - size * 0.85 && p.mouseX < mid.x + size * 0.85 && p.mouseY > window.innerHeight - size) {
-                        p.textSize (size);
-                    }
-                    p.textAlign(p.CENTER, p.BOTTOM)
-                    p.text("GO", mid.x, window.innerHeight - size * 0.1);
+                    if (circSize > 0)
+                        p.ellipse(mid.x, window.innerHeight, circSize, circSize);
 
                 } else {                    
                     var timer = element.number;
@@ -278,31 +283,34 @@ class RunTimer extends Component {
                         size = size * Math.pow(Date.now() - p.startTime, 2)/250000;
                     }
 
-                    p.fill(255);
-                    p.textAlign(p.LEFT, p.TOP);
-                    p.textSize(size * 0.4);
-                    if (element.isRest) {
-                        p.text("Rest time" + element.name, size / 5, size / 5);
-                    } else {
-                        p.text("Exercise: " + element.name, size / 5, size / 5);
+                    if (size > 0) {
+                        p.fill(255);
+                        p.textAlign(p.LEFT, p.TOP);
                         p.textSize(size * 0.4);
-                        // p.text(element.desc, size / 5, size / 5 + size * 0.4);
-                        p.textAlign(p.RIGHT, p.BOTTOM);
-                        p.text("?", window.innerWidth - size/10, window.innerHeight - size/10);
-                    }
-                    p.textSize(size * 0.3);
-                    
-                    p.textAlign(p.LEFT, p.BOTTOM);
-                    var next = "DONE";
-                    if (p.stage !== p.workout.length - 1) {
-                        if (p.workout[p.stage + 1].isRest) {
-                            next = "REST";
+                        if (element.isRest) {
+                            p.text("Rest time" + element.name, size / 5, size / 5);
                         } else {
-                            next = p.workout[p.stage + 1].name;
+                            p.text("Exercise: " + element.name, size / 5, size / 5);
+                            p.textSize(size * 0.4);
+                            // p.text(element.desc, size / 5, size / 5 + size * 0.4);
+                            p.textAlign(p.RIGHT, p.BOTTOM);
+                            p.text("?", window.innerWidth - size/10, window.innerHeight - size/10);
                         }
+                        p.textSize(size * 0.3);
+                        
+                        p.textAlign(p.LEFT, p.BOTTOM);
+                        var next = "DONE";
+                        if (p.stage !== p.workout.length - 1) {
+                            if (p.workout[p.stage + 1].isRest) {
+                                next = "REST";
+                            } else {
+                                next = p.workout[p.stage + 1].name;
+                            }
+                        }
+                        p.text("next: " + next, size / 5, window.innerHeight - size / 5);
+                        
                     }
-                    p.text("next: " + next, size / 5, window.innerHeight - size / 5);
-                    
+
                     p.fill(255);
                     if (p.dist(mid.x, mid.y, p.mouseX, p.mouseY) < size * 1.75) {
                         p.fill(240);
@@ -328,18 +336,21 @@ class RunTimer extends Component {
 
                     p.ellipse(mid.x, mid.y, circSize * 3.5, circSize * 3.5);
                     
-                    p.fill(bkgrdColor);
-                    p.textSize(size);
-                    p.textAlign(p.CENTER, p.CENTER);
-                    if (timer < 0) {
-                        if (timer * -1 < p.element) {
+                    if (size > 0) {
+                        p.fill(bkgrdColor);
+                        p.textSize(size);
+                        p.textAlign(p.CENTER, p.CENTER);
+                        if (timer < 0) {
+                            if (timer * -1 < p.element) {
+                                p.text(timer.toFixed(1), mid.x, mid.y);
+                            }
+
+                            p.text("STOP", mid.x, mid.y);
+                        } else {
                             p.text(timer.toFixed(1), mid.x, mid.y);
                         }
-
-                        p.textSize(size);
-                        p.text("STOP", mid.x, mid.y);
                     } else {
-                        p.text(timer.toFixed(1), mid.x, mid.y);
+                        p.popup = false;
                     }
 
                     if (p.popup) {
