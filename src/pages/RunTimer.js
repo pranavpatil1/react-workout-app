@@ -45,7 +45,7 @@ class RunTimer extends Component {
     sketch_canvas (p) {
         // -1 = haven't started
         // 0-end = exercises/repeats
-        p.stage = -1;
+        p.stage = 2;
         p.nextColor = {};
         p.clickTime = -1;
         p.startTime = -1;
@@ -240,31 +240,36 @@ class RunTimer extends Component {
                     if (circSize > 0)
                         p.ellipse(mid.x, window.innerHeight, circSize, circSize);
 
-                } else {                    
-                    var timer = element.number;
-                    if (p.timerStart !== -1) {
-                        timer -= (Date.now() - p.timerStart) / 1000;
-                    }
+                } else {                  
+                    
+                    if (element.isTime) {
+                        var timer = element.number;
+                        if (p.timerStart !== -1) {
+                            timer -= (Date.now() - p.timerStart) / 1000;
+                        }
 
-                    var timeLeft = timer * 1000;
-                    if (timeLeft < 0 && timeLeft > -500) {
-                        // will decrease from blue (1) to red (0)
-                        bkgrdColor = p.transColor(p.red, p.blue, (timeLeft + 500)/500);
-                    } else if (timeLeft < -500) {
-                        bkgrdColor = p.toColor(p.red);
-                        if ((timeLeft * -1) % 1000 < 250) {
-                            bkgrdColor = p.transColor(p.black, p.red, ((timeLeft * -1) % 1000)/250);
+                        var timeLeft = timer * 1000;
+                        if (timeLeft < 0 && timeLeft > -500) {
+                            // will decrease from blue (1) to red (0)
+                            bkgrdColor = p.transColor(p.red, p.blue, (timeLeft + 500)/500);
+                        } else if (timeLeft < -500) {
+                            bkgrdColor = p.toColor(p.red);
+                            if ((timeLeft * -1) % 1000 < 250) {
+                                bkgrdColor = p.transColor(p.black, p.red, ((timeLeft * -1) % 1000)/250);
+                            }
+                        } else {
+                            if (timeLeft < 10000 && timeLeft > 9750) {
+                                bkgrdColor = p.transColor(p.black, p.blue, (10000 - timeLeft)/250);
+                            } else if (timeLeft < 5000 && timeLeft > 4750) {
+                                bkgrdColor = p.transColor(p.black, p.blue, (5000 - timeLeft)/250);
+                            } else if (timeLeft < 4500 && timeLeft > 4250) {
+                                bkgrdColor = p.transColor(p.black, p.blue, (4500 - timeLeft)/250);
+                            } else {
+                                bkgrdColor = p.toColor(p.blue);
+                            }
                         }
                     } else {
-                        if (timeLeft < 10000 && timeLeft > 9750) {
-                            bkgrdColor = p.transColor(p.black, p.blue, (10000 - timeLeft)/250);
-                        } else if (timeLeft < 5000 && timeLeft > 4750) {
-                            bkgrdColor = p.transColor(p.black, p.blue, (5000 - timeLeft)/250);
-                        } else if (timeLeft < 4500 && timeLeft > 4250) {
-                            bkgrdColor = p.transColor(p.black, p.blue, (4500 - timeLeft)/250);
-                        } else {
-                            bkgrdColor = p.toColor(p.blue);
-                        }
+                        bkgrdColor = p.toColor(p.blue);
                     }
                     p.background(bkgrdColor);
 
@@ -311,45 +316,62 @@ class RunTimer extends Component {
                     }
 
                     p.fill(255);
-                    if (p.dist(mid.x, mid.y, p.mouseX, p.mouseY) < size * 1.75) {
-                        p.fill(240);
-                    }
-                    circSize = p.vmin(20);
-                    if (Date.now() - p.startTime < 500) {
-                        circSize = circSize * Math.pow(Date.now() - p.startTime, 2)/250000;
-                    }
-                    if (p.clickTime !== -1) {
-                        circSize = circSize + circSize/50000 * p.pow(Date.now() - p.clickTime, 2);
-                        p.fill(p.transColor(p.white, p.nextColor, p.pow(Date.now() - p.clickTime, 2)/1000000));
-                        
-                        if (Date.now() - p.clickTime > 1000) {
-                            p.stage ++;
-                            p.clickTime = -1;
-                            p.timerStart = -1;
-                            p.startTime = Date.now();
-                            if (p.stage < p.workout.length && p.workout[p.stage].isRest) {
-                                p.timerStart = Date.now();
+
+                    if (element.isTime || 1 === 1) {
+                        if (p.dist(mid.x, mid.y, p.mouseX, p.mouseY) < size * 1.75) {
+                            p.fill(240);
+                        }
+                        circSize = p.vmin(20);
+                        if (Date.now() - p.startTime < 500) {
+                            circSize = circSize * Math.pow(Date.now() - p.startTime, 2)/250000;
+                        }
+                        if (p.clickTime !== -1) {
+                            circSize = circSize + circSize/50000 * p.pow(Date.now() - p.clickTime, 2);
+                            p.fill(p.transColor(p.white, p.nextColor, p.pow(Date.now() - p.clickTime, 2)/1000000));
+                            
+                            if (Date.now() - p.clickTime > 1000) {
+                                p.stage ++;
+                                p.clickTime = -1;
+                                p.timerStart = -1;
+                                p.startTime = Date.now();
+                                if (p.stage < p.workout.length && p.workout[p.stage].isRest) {
+                                    p.timerStart = Date.now();
+                                }
                             }
                         }
+                        p.ellipse(mid.x, mid.y, circSize * 3.5, circSize * 3.5);
                     }
-
-                    p.ellipse(mid.x, mid.y, circSize * 3.5, circSize * 3.5);
                     
                     if (size > 0) {
-                        p.fill(bkgrdColor);
                         p.textSize(size);
-                        p.textAlign(p.CENTER, p.CENTER);
-                        if (timer < 0) {
-                            if (timer * -1 < p.element) {
+                        p.fill(bkgrdColor);
+                        if (element.isTime) {
+                            p.textAlign(p.CENTER, p.CENTER);
+                            if (timer < 0) {
+                                if (timer * -1 < p.element) {
+                                    // p.text(timer.toFixed(1), mid.x, mid.y);
+                                }
+
+                                p.text("STOP", mid.x, mid.y);
+                            } else {
                                 p.text(timer.toFixed(1), mid.x, mid.y);
                             }
-
-                            p.text("STOP", mid.x, mid.y);
                         } else {
-                            p.text(timer.toFixed(1), mid.x, mid.y);
+                            p.textAlign(p.CENTER, p.BOTTOM);
+                            p.textSize(size * 0.8);
+                            p.text(element.number + " reps", mid.x, mid.y + size * 0.1);
                         }
                     } else {
                         p.popup = false;
+                    }
+
+                    if (!element.isTime) {
+                        p.textSize(size * 0.75);
+                        if (p.mouseX > mid.x - size * 0.85 && p.mouseX < mid.x + size * 0.85 && p.mouseY < mid.y + size * 1.0 && p.mouseY > mid.y + size * 0.3) {
+                            p.textSize (size * 0.9);
+                        }
+                        p.textAlign(p.CENTER, p.TOP)
+                        p.text("done", mid.x, mid.y + size * 0.3);
                     }
 
                     if (p.popup) {
@@ -402,6 +424,17 @@ class RunTimer extends Component {
                                 } else {
                                     p.nextColor = p.green;
                                 }
+                            }
+                        }
+                    } else {
+                        if (p.mouseX > mid.x - size * 0.85 && p.mouseX < mid.x + size * 0.85 && 
+                                p.mouseY < mid.y + size * 1.0 && p.mouseY > mid.y + size * 0.3 &&
+                                p.clickTime === -1) {
+                            p.clickTime = Date.now();
+                            if (p.stage + 1 < p.workout.length) {
+                                p.nextColor = p.workout[p.stage + 1].isRepeat ? p.orange : p.blue;
+                            } else {
+                                p.nextColor = p.green;
                             }
                         }
                     }
