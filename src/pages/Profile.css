@@ -1,0 +1,16 @@
+.profileImg {
+    background: url(https://media-exp1.licdn.com/dms/image/C5603AQEWvU66I3n-9A/profile-displayphoto-shrink_200_200/0?e=1601510400&v=beta&t=sbTHnUK6rQfQiEULDphBQKNfGphyNHUuUxRFAZ0svao)  no-repeat center center;
+    background-size: cover;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}
+#profileFlex {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 20px;
+}
+
+#profileFlex div {
+    padding: 20px;
+}

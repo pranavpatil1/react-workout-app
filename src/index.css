@@ -459,8 +459,10 @@
   .no-margin-top {
     margin-top: 0; }
   
-  .no-margin-bottom {
+.no-margin-bottom {
     margin-bottom: 0; }
+.small-margin-bottom {
+    margin-bottom: 0.5rem; }
   
   .margin-top {
     margin-top: 2rem; }

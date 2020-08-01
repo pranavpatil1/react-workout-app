@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 
-
 import p5 from 'p5';
 
 import './RunTimer.css';

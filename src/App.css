@@ -1,0 +1,12 @@
+.disabled, .disabled:hover, .disabled:focus, input:disabled {
+    background-color: grey;
+    border-color: grey;
+}
+
+.error, .error:hover {
+    border: 1px solid red;
+}
+
+.error:focus {
+    border: 1px solid blue;
+}

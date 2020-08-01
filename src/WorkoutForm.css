@@ -32,19 +32,6 @@
     color: white;
 }
 
-.disabled, .disabled:hover, .disabled:focus {
-    background-color: grey;
-    border-color: grey;
-}
-
-.error, .error:hover {
-    border: 1px solid red;
-}
-
-.error:focus {
-    border: 1px solid blue;
-}
-
 #endRepeatButton {
     margin-left: 20px;
 }
