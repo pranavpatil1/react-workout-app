@@ -8,6 +8,8 @@ import RunTimer from './pages/RunTimer'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
 import PasswordReset from './pages/PasswordReset'
+import Signup from './pages/Signup'
+
 import UserProvider from './UserProvider'
 
 class Main extends Component {
@@ -62,6 +64,7 @@ class Main extends Component {
                         <Route exact path='/login' component={Login}></Route>
                         <Route exact path='/profile' component={Profile}></Route>
                         <Route exact path='/password-reset' component={PasswordReset}></Route>
+                        <Route exact path='/signup' component={Signup}></Route>
                 </Switch>
             </UserProvider>
         );
