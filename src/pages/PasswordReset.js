@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { auth } from '../Firebase';
+import Header from '../Header';
 
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
   const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
   const [error, setError] = useState(null);
+
   const onChangeHandler = event => {
     const { name, value } = event.currentTarget;
     if (name === "userEmail") {
@@ -14,8 +17,20 @@ const PasswordReset = () => {
 
   const sendResetEmail = event => {
     event.preventDefault();
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        setError("");
+        setEmailHasBeenSent(true);
+        setTimeout(() => {setEmailHasBeenSent(false)}, 3000);
+      })
+      .catch(() => {
+        setError("Error resetting password");
+      });
   };
   return (
+      <>
+      <Header />
     <div className="medium-container">
       <h1>
         Reset your Password
@@ -32,7 +47,7 @@ const PasswordReset = () => {
               {error}
             </div>
           )}
-          <label htmlFor="userEmail" className="w-full block">
+          <label htmlFor="userEmail">
             Email:
           </label>
           <input
@@ -43,7 +58,7 @@ const PasswordReset = () => {
             placeholder="Input your email"
             onChange={onChangeHandler}
           />
-          <button>
+          <button onClick={sendResetEmail}>
             Send me a reset link
           </button>
         </form>
@@ -52,6 +67,7 @@ const PasswordReset = () => {
         </Link>
       </div>
     </div>
+    </>
   );
 }
 export default PasswordReset;

@@ -1,24 +1,89 @@
-#header {
-    display:flex;
-    flex-direction: row;
-    justify-content: center;
+#left {
+    float: left;
+    padding: 10px;
+}
+#right {
+    float: right;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
 
+#header {
+    overflow: hidden;
     background-color: #6ebbff;
     color: white;
-    font-size: 36px;
+    font-size: 24px;
+    line-height: 60px;
     width: 100%;
-    padding: 20px;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica, Helvetica Neue, Arial, sans-serif;
     font-weight: bold;
+    text-align:center;
+    height: 80px;
 }
 
 #homeLink {
     color: inherit;
+    font-size: 40px;
+    padding: 15px;
 }
 #homeLink:hover, #homeLink:active, #homeLink:focus {
     text-decoration: none;
 }
 
+#header a {
+    color: white;
+}
+
 .headerItem {
     font-family: inherit;
+    font-size: inherit;
+}
+
+.rightMenu {
+    margin: 0px 10px;
+}
+
+.rightMenu a {
+    color: white;
+    padding: 12px;
+    line-height: 25px;
+    border-radius: 4px;
+}
+.rightMenu a:hover {
+    background-color: #39c;
+}
+
+.rightMenu a:hover, .rightMenu a:active, .rightMenu a:focus {
+    text-decoration: none;
+}
+
+.active a {
+    background-color: dodgerblue;
+}
+
+#profileButton a {
+    border: 2px solid white;
+}
+
+#signupButton a {
+    background: #39c;
+    border-radius: 8px;
+    text-decoration: none;
+}
+#signupButton a:hover {
+    background: #28b;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+#signupButton.active a {
+    background: #17a;
+    border-radius: 8px;
+    text-decoration: none;
+}
+#signupButton.active a:hover {
+    background: #28b;
+    border-radius: 8px;
+    text-decoration: none;
 }
