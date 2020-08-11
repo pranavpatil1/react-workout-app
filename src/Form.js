@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
+import { UserContext } from './UserProvider';
 
 class Form extends Component {
+    static contextType = UserContext;
+
     initialState = {
         name: '',
         job: '',
-        data: []
+        data: [],
+        dateCreated: 0,
+        uid: "",
+        isPublic: false
     }
 
     state = this.initialState;
+
+    componentDidMount = () => {
+    }
 
     handleChange = (event) => {
         const { name, value } = event.target
@@ -18,8 +27,17 @@ class Form extends Component {
     }
 
     submitForm = () => {
-        this.props.handleSubmit(this.state)
-        this.setState(this.initialState);
+        if (this.context !== null) {
+            this.setState({
+                uid: this.context.uid
+            }, () => {
+                this.props.handleSubmit(this.state)
+                this.setState(this.initialState);
+            });
+        } else {
+            this.props.handleSubmit(this.state)
+            this.setState(this.initialState);
+        }
     }
 
     render() {

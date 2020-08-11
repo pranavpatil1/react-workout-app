@@ -34,10 +34,10 @@ const WorkoutTableHeader = () => {
                 name = "Rest";
                 desc = row.number + " seconds";
             }
-            var nameMain = <td>{(shift > 0 ? "in repeat: " : "") + name}</td>;
-            var namePlaceholder = <td className="space"></td>;
+            var nameMain = <td key={index + 1000}>{(shift > 0 ? "in repeat: " : "") + name}</td>;
+            var namePlaceholder = <td key={index + 2000} className="space"></td>;
             var other = [
-                <td>{desc}</td>,
+                <td key={index + 3000}>{desc}</td>,
             ];
             // placeholder is separate so that some elements are indented in
             // this is temporary, will be replaced by SortableJS

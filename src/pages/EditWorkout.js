@@ -6,14 +6,15 @@ import WorkoutTable from '../WorkoutTable'
 import WorkoutForm from '../WorkoutForm'
 import Header from '../Header'
 
-import queryString from 'querystring'
-
 class EditWorkout extends Component {
     state = {
         workout: {
             name: "",
             job: "",
-            data: []
+            data: [],
+            dateCreated: 0,
+            uid: "",
+            isPublic: false
         },
         redirect: null,
         unsaved: false
@@ -21,20 +22,22 @@ class EditWorkout extends Component {
 
     componentDidMount () {
         // need a check if the id parameter is not there or the workout doesnt exist
-        if (this.props.search.length === 0) {
+        if (this.props.id == "") {
             this.setState({
-                redirect:"/"
+                redirect:"/workouts"
             });
             return;
         }
-        this.index = queryString.parse(this.props.search.substring(1)).id;
-        if (this.index === undefined || this.index >= this.props.workouts.length) {
+
+        var workoutOrig = this.props.workouts.find(w => w.id === this.props.id);
+        
+        if (workoutOrig == null) {
             this.setState({
-                redirect:"/"
+                redirect:"/workouts"
             });
             return;
         }
-        var workout = {...this.props.workouts[this.index]};
+        var workout = {...workoutOrig.workout};
         workout.data = [...workout.data];
         this.setState({
             workout: workout
@@ -43,35 +46,32 @@ class EditWorkout extends Component {
 
     componentDidUpdate = () => {
         if (this.state.unsaved) {
-            window.onbeforeunload = () => true
+            window.onbeforeunload = () => true;
         } else {
-            window.onbeforeunload = undefined
+            window.onbeforeunload = undefined;
         }
     }
 
     addElement = (element, parent) => {
+        var newWorkout = {...this.state.workout};
         if (parent === -1) {
+            newWorkout.data = [...this.state.workout.data, element];
             this.setState({
-                workout: {
-                    name: this.state.workout.name,
-                    job: this.state.workout.job,
-                    data: [...this.state.workout.data, element]
-                }
+                workout: newWorkout
+            }, () => {
+                console.log(this.state.workout);
             });
         } else {
             var newParent = {...this.state.workout.data[parent]};
             newParent.children ++;
+            newWorkout.data = [...this.state.workout.data.slice(0, parent), 
+                newParent,
+                ...this.state.workout.data.slice(parent+1), 
+                element];
             this.setState({
-                workout: {
-                    name: this.state.workout.name,
-                    job: this.state.workout.job,
-                    data: [...this.state.workout.data.slice(0, parent), 
-                        newParent,
-                        ...this.state.workout.data.slice(parent+1), 
-                        element]
-                }
+                workout: newWorkout
             }, () => {
-                // console.log(this.state.workout);
+                console.log(this.state.workout);
             });
         }
         this.setState({
@@ -80,7 +80,7 @@ class EditWorkout extends Component {
     }
 
     submitChanges = () => {
-        this.props.updateWorkout(this.index, this.state.workout);
+        this.props.updateWorkout(this.props.id, this.state.workout);
         
         this.setState({
             unsaved: false

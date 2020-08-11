@@ -1,18 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { auth, signInWithGoogle } from '../Firebase';
 
 import Header from '../Header'
-import { UserContext } from '../UserProvider';
 
 export default function Login () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     
-    const user = useContext(UserContext);
-    const userEmail = (user || {}).email;
-    const redirect = null;
+    var redirect = undefined;
 
     function validate() {
         return email.length > 0 && password.length > 0;
@@ -26,8 +23,11 @@ export default function Login () {
             setError("Error: " + error.message);
         });
     }
-    if (userEmail !== undefined) {
-        return <Redirect to="/profile" />
+    if (auth.currentUser !== null && auth.currentUser) {
+        redirect = "/profile";
+    }
+    if (redirect !== undefined) {
+        return <Redirect to={redirect} />
     }
     return (
         <>

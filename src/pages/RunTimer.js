@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
+import { serverGetWorkoutById } from '../Firebase'
 
 import p5 from 'p5';
 
 import './RunTimer.css';
-import queryString from 'querystring'
 
 class RunTimer extends Component {
     state = {
@@ -13,30 +13,44 @@ class RunTimer extends Component {
 
     constructor (props) {
         super(props);
-        if (this.props.search !== undefined && this.props.search.length > 0) {
-            this.index = queryString.parse(this.props.search.substring(1)).id;
+        //
+        // need a check if the id parameter is not there or the workout doesnt exist
+        if (this.props.id == "") {
+            this.setState({
+                redirect:"/workouts"
+            });
+            return;
         }
-        if (this.index !== undefined) {
-            var i = 0;
-            this.workout = [];
-            this.name = this.props.workouts[this.index].name;
-            while (i < this.props.workouts[this.index].data.length) {
-                var element = this.props.workouts[this.index].data[i];
-                this.workout.push(element);
-                if (element.isRepeat) {
-                    for (var k = 0; k < element.number; k ++) {
-                        for (var j = i + 1; j < i + element.children + 1; j ++) {
-                            this.workout.push(this.props.workouts[this.index].data[j]);
+
+        this.workout = [];
+        this.name = "";
+        serverGetWorkoutById(this.props.id).then(result => {
+            if (result === null) {
+                this.setState({
+                    redirect:"/workouts"
+                });
+                return;
+            } else {
+                console.log(result);
+                this.name = result.name;
+                var i = 0;
+                this.name = result.name;
+                while (i < result.data.length) {
+                    var element = result.data[i];
+                    this.workout.push(element);
+                    if (element.isRepeat) {
+                        for (var k = 0; k < element.number; k ++) {
+                            for (var j = i + 1; j < i + element.children + 1; j ++) {
+                                this.workout.push(result.data[j]);
+                            }
                         }
+                        i += element.children;
                     }
-                    i += element.children;
+                    i ++;
                 }
-                i ++;
             }
-            console.log(this.workout);
-        } else {
-            this.state.redirect = "/";
-        }
+        });
+
         // should add some sort of ending slide
         // need a check if the id parameter is not there or the workout doesnt exist
     }
@@ -108,7 +122,6 @@ class RunTimer extends Component {
         p.setup = () => {
             p.createCanvas(window.innerWidth, window.innerHeight);
             p.textFont("Helvetica Neue");
-            p.text("", 0, 0);
             p.textAlign(p.CENTER, p.CENTER);
             p.noStroke();
         }
@@ -290,7 +303,7 @@ class RunTimer extends Component {
                         p.textAlign(p.LEFT, p.TOP);
                         p.textSize(size * 0.4);
                         if (element.isRest) {
-                            p.text("Rest time" + element.name, size / 5, size / 5);
+                            p.text("Rest time", size / 5, size / 5);
                         } else {
                             p.text("Exercise: " + element.name, size / 5, size / 5);
                             p.textSize(size * 0.4);
@@ -316,7 +329,7 @@ class RunTimer extends Component {
 
                     p.fill(255);
 
-                    if (element.isTime || 1 === 1) {
+                    if (element.isTime || true) {
                         if (p.dist(mid.x, mid.y, p.mouseX, p.mouseY) < size * 1.75) {
                             p.fill(240);
                         }

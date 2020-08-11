@@ -28,7 +28,7 @@ const Header = () => {
         <div id="header">
             <div id="left">
                 <div className="headerItem">
-                    <Link to="/" id="homeLink">workout timer</Link>
+                    <Link to="/" id="homeLink"><span role="img" aria-label="flexed bicep">💪</span> workout timer</Link>
                 </div>
             </div>
             <div id="right">

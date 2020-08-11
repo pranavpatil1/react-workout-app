@@ -19,20 +19,20 @@ const TableHeader = () => {
     const rows = props.workoutData.map((row, index) => {
     return (
         <tr key={index}>
-            <td>{row.name}</td>
-            <td>{row.job}</td>
+            <td>{row.workout.name}</td>
+            <td>{row.workout.job}</td>
             <td >
-                <Link to={"/edit?id="+index}>
+                <Link to={"/edit/"+row.id}>
                     <span className="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </Link>
             </td>
-            <td >
-                <Link to={"/go?id="+index}>
+            <td>
+                <Link to={"/go/"+row.id}>
                     <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
                 </Link>
             </td>
             <td>
-            <span  onClick={() => props.removeWorkout(index)} className="glyphicon glyphicon-trash clickable" aria-hidden="true"></span>
+            <span  onClick={() => props.removeWorkout(row.id)} className="glyphicon glyphicon-trash clickable" aria-hidden="true"></span>
             </td>
         </tr>
         )

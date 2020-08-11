@@ -10,7 +10,8 @@ import { Redirect } from "react-router-dom";
 const ProfilePage = () => {
     const user = useContext(UserContext);
     const {photoURL, displayName, email} = (user || {});
-    if (email === undefined) {
+    if (auth.currentUser !== null && !auth.currentUser) {
+        console.log(auth.currentUser);
         return <Redirect to="/login" />
     }
     return (

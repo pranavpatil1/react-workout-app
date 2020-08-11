@@ -24,10 +24,8 @@ export const signInWithGoogle = () => {
 
 const getUserDocument = async uid => {
     if (!uid) return null;
-    console.log("uid", uid);
     try {
       const userDocument = await firestore.doc(`users/${uid}`).get();
-      console.log("doc", userDocument);
       return {
         uid,
         ...userDocument.data()
@@ -41,11 +39,8 @@ export const generateUserDocument  = async (user, additionalData) => {
     if (!user) return;
     const userRef = firestore.collection('users').doc(`${user.uid}`);
     const snapshot = await userRef.get();
-    console.log("snapshot", snapshot);
     if (!snapshot.exists) {
         const {email, displayName, photoURL} = user;
-        console.log("doesn't exist, creating")
-        console.log(email, displayName, photoURL);
         try {
             await userRef.set({
                 displayName,
@@ -60,3 +55,69 @@ export const generateUserDocument  = async (user, additionalData) => {
     return getUserDocument(user.uid);
 }
 
+export const serverAddWorkout = async workout => {
+    if (!workout) return;
+    const db = firestore.collection('workouts');
+    var res = "";
+    try {
+        res = await db.add(workout);
+    } catch (error) {
+        console.log("Error updating workout", error);
+    }
+    return res.id;
+};
+
+export const serverGetUserWorkouts = async uid => {
+    if (!uid) return;
+    var result = [];
+    const db = firestore.collection('workouts');
+    const snapshot = await db.where('uid','==',uid).get()
+    for (var i in snapshot.docs) {
+        const doc = snapshot.docs[i];
+        result.push({
+            id: doc.id,
+            workout: doc.data()
+        })
+    }
+    return result;
+};
+
+export const serverGetPublicWorkouts = async uid => {
+    if (!uid) return;
+    var result = [];
+    const db = firestore.collection('workouts');
+    const snapshot = await db.where('isPublic','==',true).get()
+    for (var i in snapshot.docs) {
+        const doc = snapshot.docs[i];
+        result.push({
+            id: doc.id,
+            workout: doc.data()
+        })
+    }
+    return result;
+};
+export const serverGetWorkoutById = async id => {
+    if (!id) return;
+    const ref = firestore.collection('workouts').doc(id);
+    const snapshot = await ref.get();
+    if (!snapshot.exists) {
+        return null;
+    } else {
+        return snapshot.data();
+    }
+};
+
+export const serverUpdateWorkout = async (id, workout) => {
+    if (!id) return;
+    const userRef = firestore.collection('workouts').doc(id);
+    const snapshot = await userRef.get();
+    if (!snapshot.exists) {
+        console.log("Error: updating non-existent workout");
+    } else {
+        try {
+            await userRef.update(workout);
+        } catch (error) {
+            console.log("Error updating workout", error);
+        }
+    }
+};
