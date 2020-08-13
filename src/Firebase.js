@@ -82,8 +82,7 @@ export const serverGetUserWorkouts = async uid => {
     return result;
 };
 
-export const serverGetPublicWorkouts = async uid => {
-    if (!uid) return;
+export const serverGetPublicWorkouts = async () => {
     var result = [];
     const db = firestore.collection('workouts');
     const snapshot = await db.where('isPublic','==',true).get()
