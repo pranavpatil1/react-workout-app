@@ -17,15 +17,6 @@ app.get('/api/greeting', (req, res) => {
 
 app.use(express.static(__dirname));
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://dbUser:hwFe4JQ5tWCtUQ03@cluster0.uuvqv.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  
-  client.close();
-});
-
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
 );
