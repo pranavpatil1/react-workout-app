@@ -85,7 +85,7 @@ export const serverGetUserWorkouts = async uid => {
 export const serverGetPublicWorkouts = async () => {
     var result = [];
     const db = firestore.collection('workouts');
-    const snapshot = await db.where('isPublic','==',true).get()
+    const snapshot = await db.where('isPublic','==',2).get()
     for (var i in snapshot.docs) {
         const doc = snapshot.docs[i];
         result.push({

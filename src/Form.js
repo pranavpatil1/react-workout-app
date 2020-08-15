@@ -10,7 +10,7 @@ class Form extends Component {
         data: [],
         dateCreated: 0,
         uid: "",
-        isPublic: false
+        isPublic: 0
     }
 
     state = this.initialState;

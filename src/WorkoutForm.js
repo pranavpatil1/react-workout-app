@@ -158,7 +158,8 @@ class WorkoutForm extends Component {
     render() {
         return (
             <div>
-            <h3>Create a Repeating Section</h3>
+                <h3>Edit Workout</h3>
+            <h5>Create a Repeating Section</h5>
             <div className="container">
                 <form>
                     <label htmlFor="name">Name</label>
@@ -178,10 +179,10 @@ class WorkoutForm extends Component {
                     <input id="endRepeatButton" className="btn disabled" type="button" value="End Repeat" onClick={this.endRepeat} />
                 </form>
             </div>
-            <h3>Add an element</h3>
+            <h5>Add an element</h5>
             <div className="container row">
                 <div className="column">
-                    <h3>Exercise</h3>
+                    <h5 className="no-margin-top">Exercise</h5>
                     <form>
                         <label htmlFor="name">Name</label>
                         <input
@@ -219,7 +220,7 @@ class WorkoutForm extends Component {
                 </div>
                 
                 <div className="column">
-                    <h3>Rest Time</h3>
+                    <h5 className="no-margin-top">Rest Time</h5>
                     <form>
                         <label htmlFor="job">Length</label>
                         <div className="input-group length-group">

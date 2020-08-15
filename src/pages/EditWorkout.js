@@ -5,6 +5,7 @@ import { Prompt } from 'react-router';
 import WorkoutTable from '../WorkoutTable'
 import WorkoutForm from '../WorkoutForm'
 import Header from '../Header'
+import WorkoutSettings from '../WorkoutSettings';
 
 class EditWorkout extends Component {
     state = {
@@ -14,7 +15,7 @@ class EditWorkout extends Component {
             data: [],
             dateCreated: 0,
             uid: "",
-            isPublic: false
+            isPublic: 0
         },
         redirect: null,
         unsaved: false
@@ -50,6 +51,18 @@ class EditWorkout extends Component {
         } else {
             window.onbeforeunload = undefined;
         }
+    }
+
+    updateDetails = (name, desc, privacy) => {
+        var newWorkout = {...this.state.workout};
+        newWorkout.name = name;
+        newWorkout.job = desc;
+        newWorkout.isPublic = privacy;
+        this.setState({
+            workout: newWorkout
+        }, () => {
+            this.props.updateWorkout(this.props.id, this.state.workout);
+        });
     }
 
     addElement = (element, parent) => {
@@ -88,18 +101,19 @@ class EditWorkout extends Component {
     }
 
     render() {
-    if (this.state.redirect) {
-        return <Redirect to={this.state.redirect} />
-    }
-      return (
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+        return (
             <>
             <Header />
             <div className="container">
                 <h1>Edit Workout: {this.state.workout.name}</h1>
                 <p>A workout consists of exercises (either for an amount of time or number of reps) or rest time. 
                     You can also repeat a set of exercises (for example, 1 round of a HITT circuit). To do so, start a repeating section and add the exercises you want to repeat.</p>
+                <WorkoutSettings  workoutData={this.state.workout} updateDetails={this.updateDetails}/>
                 <WorkoutForm addElement={this.addElement} workoutData={this.state.workout} />
-                <input id="submitWorkout" className="btn" type="button" value="Save Changes" onClick={this.submitChanges} />
+                <input id="submitWorkout" className="btn" type="button" value="Save Workout" onClick={this.submitChanges} />
                 <WorkoutTable workoutData={this.state.workout} />
                 <Prompt
                     when={this.state.unsaved}
@@ -107,7 +121,7 @@ class EditWorkout extends Component {
                 />
             </div>
             </>
-      );
+        );
     }
   }
 

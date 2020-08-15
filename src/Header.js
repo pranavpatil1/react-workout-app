@@ -8,11 +8,18 @@ const Header = () => {
     const user = useContext(UserContext);
     const history = useHistory();
     const loggedIn = (
+        <>
+        <div className={"headerItem rightMenu"+(history.location.pathname === "/workouts" ? " active" : "")} id="workoutButton">
+            <Link to="/workouts">
+                My Workouts
+            </Link>
+        </div>
         <div className={"headerItem rightMenu"+(history.location.pathname === "/profile" ? " active" : "")} id="profileButton">
             <Link to="/profile">
                 <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
             </Link>
         </div>
+        </>
     );
     const loggedOut = (
         <>
