@@ -1,0 +1,53 @@
+#workoutBox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.workoutItem {
+    padding: 20px;
+    width: 300px;
+    background-color: white;
+    border-radius: 5px;
+    border: 5px solid #6ebbff;
+    margin: 10px;
+    color: #333;
+    flex-grow: 1;
+}
+
+
+.workoutButtons {
+    width: 100%;
+    line-height: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workoutButtons * {
+    padding: 0px;
+    padding-bottom: 0;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workoutButtons:first-child {
+    color: green;
+}
+.workoutButtons:last-child {
+    padding-right: 0;
+}
+
+#nameInput {
+    width: 100%;
+}
+
+#nameLabel {
+    vertical-align: middle;
+}
+
+#nameWrapper {
+}

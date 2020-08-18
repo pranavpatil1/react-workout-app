@@ -15,9 +15,6 @@ class Form extends Component {
 
     state = this.initialState;
 
-    componentDidMount = () => {
-    }
-
     handleChange = (event) => {
         const { name, value } = event.target
 
