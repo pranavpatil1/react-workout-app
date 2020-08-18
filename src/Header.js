@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from './UserProvider';
+import { PersonFill } from 'react-bootstrap-icons';
 
 import './Header.css'
 
@@ -9,24 +10,24 @@ const Header = () => {
     const history = useHistory();
     const loggedIn = (
         <>
-        <div className={"headerItem rightMenu"+(history.location.pathname === "/workouts" ? " active" : "")} id="workoutButton">
+        <div className={"headerItem rightMenu"+(history.location.pathname === "/workouts" ? " activeMenu" : "")} id="workoutButton">
             <Link to="/workouts">
                 My Workouts
             </Link>
         </div>
-        <div className={"headerItem rightMenu"+(history.location.pathname === "/profile" ? " active" : "")} id="profileButton">
+        <div className={"headerItem rightMenu"+(history.location.pathname === "/profile" ? " activeMenu" : "")} id="profileButton">
             <Link to="/profile">
-                <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
+                <PersonFill size={30}/>
             </Link>
         </div>
         </>
     );
     const loggedOut = (
         <>
-        <div id="loginButton" className={"headerItem rightMenu"+(history.location.pathname === "/login" ? " active" : "")}>
+        <div id="loginButton" className={"headerItem rightMenu"+(history.location.pathname === "/login" ? " activeMenu" : "")}>
             <Link to="/login">Login</Link>
         </div>
-        <div id="signupButton" className={"headerItem rightMenu"+(history.location.pathname === "/signup" ? " active" : "")}>
+        <div id="signupButton" className={"headerItem rightMenu"+(history.location.pathname === "/signup" ? " activeMenu" : "")}>
             <Link to="/signup">Sign Up</Link>
         </div>
         </>
