@@ -83,7 +83,7 @@ const MyWorkoutList = () => {
     );
     if (context == null || !context.uid) {
         boxes = <p>You must be signed in</p>;
-    } else if (workouts === null) {
+    } else if (workouts == null) {
         
     } else {
         boxes = [
@@ -136,6 +136,7 @@ const PublicList = () => {
     return (
         <Tabs defaultActiveKey="home" id="controlled-tab">
             <Tab eventKey="home" title="New">
+                <NewList />
             </Tab>
             <Tab eventKey="my" title="My Workouts">
                 <MyWorkoutList/>
