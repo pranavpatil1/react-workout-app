@@ -169,7 +169,7 @@ class WorkoutForm extends Component {
                             id="repeatName"
                             placeholder="Circuit 1"
                             onChange={this.handleChange} />
-                    <label htmlFor="job">Length</label>
+                    <label htmlFor="repeatNum">Length</label>
                     <div className="input-group length-group">
                         <input  id="repeatNum" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" />
                         <span className="input-group-addon">repeats</span>
@@ -222,7 +222,7 @@ class WorkoutForm extends Component {
                 <div className="column">
                     <h5 className="no-margin-top">Rest Time</h5>
                     <form>
-                        <label htmlFor="job">Length</label>
+                        <label htmlFor="restTime">Length</label>
                         <div className="input-group length-group">
                             <input id="restTime" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" />
                             <span className="input-group-addon">seconds</span>

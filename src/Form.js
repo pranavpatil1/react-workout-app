@@ -6,7 +6,7 @@ class Form extends Component {
 
     initialState = {
         name: '',
-        job: '',
+        desc: '',
         data: [],
         dateCreated: 0,
         uid: "",
@@ -38,7 +38,7 @@ class Form extends Component {
     }
 
     render() {
-        const {name, job} = this.state;
+        const {name, desc} = this.state;
 
         return (
             <form>
@@ -49,12 +49,12 @@ class Form extends Component {
                 id="name"
                 value={name}
                 onChange={this.handleChange} />
-            <label htmlFor="job">Notes</label>
+            <label htmlFor="desc">Notes</label>
             <input
                 type="text"
-                name="job"
-                id="job"
-                value={job}
+                name="desc"
+                id="desc"
+                value={desc}
                 onChange={this.handleChange} />
             <input type="button" value="Create" onClick={this.submitForm} />
             </form>

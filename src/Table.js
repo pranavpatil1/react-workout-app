@@ -20,7 +20,7 @@ const TableHeader = () => {
     return (
         <tr key={index}>
             <td>{row.workout.name}</td>
-            <td>{row.workout.job}</td>
+            <td>{row.workout.desc}</td>
             <td >
                 <Link to={"/edit/"+row.id}>
                     <span className="glyphicon glyphicon-edit" aria-hidden="true"></span>

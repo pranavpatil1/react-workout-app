@@ -2,43 +2,10 @@ import React, { Component } from 'react'
 // import './WorkoutForm.css'
 
 class WorkoutSettings extends Component {
-    initialState = {
-        name: "",
-        desc: "",
-        isPublic: 0,
-        updated: false
-    }
-
-    state = this.initialState;
-
-    componentDidUpdate = () => {
-        if (!this.state.updated) {
-            this.setState({
-                name: this.props.workoutData.name,
-                desc: this.props.workoutData.job,
-                isPublic: this.props.workoutData.isPublic,
-                updated: true
-            });
-        }
-    }
-
-    handleChange = (event) => {
-        const { name, value } = event.target
-
-        if (name === "isPublic" && value !== "") {
-            this.setState({
-                [name]: parseInt(value),
-            });
-        } else {
-            this.setState({
-                [name]: value,
-            });
-        }
-    }
+    
 
     submitDetails = () => {
-        console.log(this.state)
-        this.props.updateDetails(this.state.name, this.state.desc, this.state.isPublic);
+        this.props.updateDetails();
     }
 
     render() {
@@ -53,22 +20,22 @@ class WorkoutSettings extends Component {
                             name="name"
                             id="workoutName"
                             placeholder="HIIT"
-                            onChange={this.handleChange}
-                            value={this.state.name} />
+                            onChange={this.props.handleChange}
+                            value={this.props.workoutData.name} />
                     <label htmlFor="desc">Details</label>
                         <input
                             type="text"
                             name="desc"
                             id="workoutDetails"
                             placeholder="Tuesdays"
-                            value={this.state.desc}
-                            onChange={this.handleChange} />
+                            value={this.props.workoutData.desc}
+                            onChange={this.props.handleChange} />
                     
                     <label htmlFor="isPublic">Privacy</label>
                     <select name="isPublic" 
                             id="privacy" 
-                            onChange={this.handleChange}
-                            value={this.state.isPublic}>
+                            onChange={this.props.handleChange}
+                            value={this.props.workoutData.isPublic}>
                         <option value="0">Private</option>
                         <option value="1">Unlisted</option>
                         <option value="2">Public</option>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { Prompt } from 'react-router';
+import { UserContext } from '../UserProvider';
+import {serverGetWorkoutById, serverUpdateWorkout} from '../Firebase';
 
 import WorkoutTable from '../WorkoutTable'
 import WorkoutForm from '../WorkoutForm'
@@ -8,15 +10,11 @@ import Header from '../Header'
 import WorkoutSettings from '../WorkoutSettings';
 
 class EditWorkout extends Component {
+    static contextType = UserContext;
+
     state = {
-        workout: {
-            name: "",
-            job: "",
-            data: [],
-            dateCreated: 0,
-            uid: "",
-            isPublic: 0
-        },
+        workout: null,
+        servWorkout: null,
         redirect: null,
         unsaved: false
     };
@@ -30,19 +28,25 @@ class EditWorkout extends Component {
             return;
         }
 
-        var workoutOrig = this.props.workouts.find(w => w.id === this.props.id);
-        
-        if (workoutOrig == null) {
-            this.setState({
-                redirect:"/workouts"
-            });
-            return;
+        if (this.state.workout === null) {
+            serverGetWorkoutById(this.props.id)
+            .then((data) => {
+                if (data !== null) {
+                    var copy = {...data};
+                    copy.data = [...copy.data];
+                    this.setState({
+                        workout: data,
+                        servWorkout: copy
+                    });
+                } else {
+                    this.setState({
+                        redirect: "/"
+                    });
+                    return;
+                }
+            })
         }
-        var workout = {...workoutOrig.workout};
-        workout.data = [...workout.data];
-        this.setState({
-            workout: workout
-        });
+        
     }
 
     componentDidUpdate = () => {
@@ -53,18 +57,6 @@ class EditWorkout extends Component {
         }
     }
 
-    updateDetails = (name, desc, privacy) => {
-        var newWorkout = {...this.state.workout};
-        newWorkout.name = name;
-        newWorkout.job = desc;
-        newWorkout.isPublic = privacy;
-        this.setState({
-            workout: newWorkout
-        }, () => {
-            this.props.updateWorkout(this.props.id, this.state.workout);
-        });
-    }
-
     addElement = (element, parent) => {
         var newWorkout = {...this.state.workout};
         if (parent === -1) {
@@ -72,7 +64,6 @@ class EditWorkout extends Component {
             this.setState({
                 workout: newWorkout
             }, () => {
-                console.log(this.state.workout);
             });
         } else {
             var newParent = {...this.state.workout.data[parent]};
@@ -84,7 +75,6 @@ class EditWorkout extends Component {
             this.setState({
                 workout: newWorkout
             }, () => {
-                console.log(this.state.workout);
             });
         }
         this.setState({
@@ -92,17 +82,53 @@ class EditWorkout extends Component {
         });
     }
 
+    updateDetails = () => {
+        var newWorkout = {...this.state.servWorkout};
+        newWorkout.name = this.state.workout.name;
+        newWorkout.desc = this.state.workout.desc;
+        newWorkout.isPublic = this.state.workout.isPublic;
+        this.setState({
+            servWorkout: newWorkout
+        });
+        serverUpdateWorkout(this.props.id, newWorkout);
+    }
+
     submitChanges = () => {
-        this.props.updateWorkout(this.props.id, this.state.workout);
+        var newWorkout = {...this.state.servWorkout};
+        newWorkout.data = [...this.state.workout.data]
+        this.setState({
+            servWorkout: newWorkout
+        });
+        serverUpdateWorkout(this.props.id, newWorkout);
         
         this.setState({
             unsaved: false
         });
     }
 
+    handleChange = (event) => {
+        var newWorkout = {...this.state.workout};
+
+        const { name, value } = event.target
+
+        if (name === "isPublic" && value !== "") {
+            newWorkout[name] = parseInt(value);
+        } else {
+            
+            newWorkout[name] = value;
+        }
+
+        this.setState({
+            workout: newWorkout
+        });
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
+        }
+        if (this.state.workout === null) {
+            return <Header />;
         }
         return (
             <>
@@ -111,7 +137,7 @@ class EditWorkout extends Component {
                 <h1>Edit Workout: {this.state.workout.name}</h1>
                 <p>A workout consists of exercises (either for an amount of time or number of reps) or rest time. 
                     You can also repeat a set of exercises (for example, 1 round of a HITT circuit). To do so, start a repeating section and add the exercises you want to repeat.</p>
-                <WorkoutSettings  workoutData={this.state.workout} updateDetails={this.updateDetails}/>
+                <WorkoutSettings workoutData={this.state.workout} handleChange={this.handleChange} updateDetails={this.updateDetails}/>
                 <WorkoutForm addElement={this.addElement} workoutData={this.state.workout} />
                 <input id="submitWorkout" className="btn" type="button" value="Save Workout" onClick={this.submitChanges} />
                 <WorkoutTable workoutData={this.state.workout} />

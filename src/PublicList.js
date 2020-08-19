@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 
-import { serverGetPublicWorkouts, serverGetUserWorkouts } from "./Firebase";
+import { serverGetPublicWorkouts, serverGetUserWorkouts, serverAddWorkout } from "./Firebase";
 import './PublicList.css'
 import { PlayFill, PencilSquare, PlusSquare } from 'react-bootstrap-icons';
-import UserProvider, { UserContext } from './UserProvider';
+import { UserContext } from './UserProvider';
 
 const WorkoutItem = (props) => {
     const context = useContext(UserContext);
@@ -15,7 +15,7 @@ const WorkoutItem = (props) => {
         <div className="workoutItem">
             <p className="workoutTitle">
                 <b>{el.workout.name}</b><br />
-                Description: {el.workout.desc}
+                {el.workout.desc !== undefined ? "Description: " + el.workout.desc : " "}
             </p>
             <div className="workoutButtons">
                 <Link to={"/view/"+el.id}>
@@ -38,6 +38,7 @@ const WorkoutItem = (props) => {
 const MyWorkoutList = () => {
     const [workouts, setWorkouts] = useState(null);
     const [name, setName] = useState("");
+    const [redirect, setRedirect] = useState("");
     const context = useContext(UserContext);
     
     useEffect(() => {
@@ -52,28 +53,48 @@ const MyWorkoutList = () => {
     if (context === null) {
         boxes = <p>You must be signed in</p>;
     } else if (workouts === null) {
-        boxes = <p>No workouts</p>;
     } else {
         boxes = workouts.map((row, index) => {
             return <WorkoutItem workout={row} />;
         });
     }
+
+    const createWorkout = () => {
+        var workout = {
+            name: name,
+            desc: "",
+            data: [],
+            dateCreated: 0,
+            uid: context.uid,
+            isPublic: 0
+        };
+        serverAddWorkout(workout)
+        .then((id) => {
+            setRedirect("/edit/"+id);
+            console.log("/edit/"+id)
+        })
+    }
+
+    if (redirect !== "") {
+        return <Redirect to={redirect} />;
+    }
+
     return (
         <div id="workoutBox">            
             <div className="workoutItem">
                 <p>Create Workout</p>
-                <div id="nameWrapper">
+                <div id="createWrapper">
                     <input
                         type="text"
                         name="name"
                         id="nameInput"
                         placeholder="Workout Name"
                         value={name}
-                        onChange={setName} />
+                        onChange={(event) => setName(event.target.value)} />
+                    <div onClick={createWorkout} className="clickable">
+                        <PlusSquare id="createButton" size={30}/>
+                    </div>
                 </div>
-                <Link to={"/edit/"}>
-                    <PlusSquare size={30}/>
-                </Link>
             </div>
             {boxes}
         </div>
@@ -82,7 +103,6 @@ const MyWorkoutList = () => {
 
 const NewList = () => {
     const [workouts, setWorkouts] = useState(null);
-    const context = useContext(UserContext);
     
     useEffect(() => {
         serverGetPublicWorkouts()
@@ -94,7 +114,7 @@ const NewList = () => {
     })
 
     var boxes;
-    if (workouts === null) {
+    if (workouts === null || workouts.length === 0) {
         boxes = <p>No public workouts</p>;
     } else {
         boxes = workouts.map((row, index) => {
@@ -114,11 +134,11 @@ const PublicList = () => {
             <Tab eventKey="home" title="New">
                 <NewList />
             </Tab>
-            <Tab eventKey="profile" title="Trainer">
-                
-            </Tab>
             <Tab eventKey="my" title="My Workouts">
                 <MyWorkoutList/>
+            </Tab>
+            <Tab eventKey="profile" title="Trainer" disabled>
+                
             </Tab>
         </Tabs>
     );

@@ -65,14 +65,20 @@ const WorkoutTableHeader = () => {
 const WorkoutTable = (props) => {
     const { workoutData } = props
 
-    return (
-      <table>
-        <WorkoutTableHeader />
-        <WorkoutTableBody 
-            workoutData={workoutData}
-        />
-      </table>
-    )
+    if (workoutData !== null) {
+        console.log(workoutData)
+        return (
+            <table>
+              <WorkoutTableHeader />
+              <WorkoutTableBody 
+                  workoutData={workoutData}
+              />
+            </table>
+          )
+    } else {
+        return <table></table>;
+    }
+    
 }
 
 export default WorkoutTable

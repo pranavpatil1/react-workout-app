@@ -10,11 +10,6 @@ const Header = () => {
     const history = useHistory();
     const loggedIn = (
         <>
-        <div className={"headerItem rightMenu"+(history.location.pathname === "/workouts" ? " activeMenu" : "")} id="workoutButton">
-            <Link to="/workouts">
-                My Workouts
-            </Link>
-        </div>
         <div className={"headerItem rightMenu"+(history.location.pathname === "/profile" ? " activeMenu" : "")} id="profileButton">
             <Link to="/profile">
                 <PersonFill size={30}/>
