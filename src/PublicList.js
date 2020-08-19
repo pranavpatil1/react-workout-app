@@ -61,7 +61,6 @@ const MyWorkoutList = () => {
         serverAddWorkout(workout)
         .then((id) => {
             setRedirect("/edit/"+id);
-            console.log("/edit/"+id)
         })
     }
 
@@ -118,10 +117,8 @@ const NewList = () => {
         });
     })
 
-    console.log(workouts);
-
     var boxes;
-    if (workouts === null || workouts.length === 0) {
+    if (workouts == null || workouts.length === 0) {
         boxes = <p>No public workouts</p>;
     } else {
         boxes = workouts.map((row, index) => {
@@ -138,7 +135,7 @@ const NewList = () => {
 const PublicList = () => {
     return (
         <Tabs defaultActiveKey="home" id="controlled-tab">
-            <Tab eventKey="home" title="New2">
+            <Tab eventKey="home" title="New">
                 <NewList />
             </Tab>
             <Tab eventKey="my" title="My Workouts">
