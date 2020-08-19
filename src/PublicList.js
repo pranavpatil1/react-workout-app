@@ -136,7 +136,6 @@ const PublicList = () => {
     return (
         <Tabs defaultActiveKey="home" id="controlled-tab">
             <Tab eventKey="home" title="New">
-                <NewList />
             </Tab>
             <Tab eventKey="my" title="My Workouts">
                 <MyWorkoutList/>
