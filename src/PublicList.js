@@ -15,7 +15,7 @@ const WorkoutItem = (props) => {
         <div className="workoutItem">
             <p className="workoutTitle">
                 <b>{el.workout.name}</b><br />
-                {el.workout.desc !== undefined ? "Description: " + el.workout.desc : " "}
+                {el.workout.desc !== undefined && el.workout.desc !== "" ? "Description: " + el.workout.desc : " "}
             </p>
             <div className="workoutButtons">
                 <Link to={"/view/"+el.id}>
@@ -49,16 +49,6 @@ const MyWorkoutList = () => {
         }
     })
 
-    var boxes;
-    if (context === null) {
-        boxes = <p>You must be signed in</p>;
-    } else if (workouts === null) {
-    } else {
-        boxes = workouts.map((row, index) => {
-            return <WorkoutItem workout={row} />;
-        });
-    }
-
     const createWorkout = () => {
         var workout = {
             name: name,
@@ -75,27 +65,42 @@ const MyWorkoutList = () => {
         })
     }
 
+    var boxes = (
+        <div className="workoutItem">
+            <p>Create Workout</p>
+            <div id="createWrapper">
+                <input
+                    type="text"
+                    name="name"
+                    id="nameInput"
+                    placeholder="Workout Name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)} />
+                <div onClick={createWorkout} className="clickable">
+                    <PlusSquare id="createButton" size={30}/>
+                </div>
+            </div>
+        </div>
+    );
+    if (context == null || !context.uid) {
+        boxes = <p>You must be signed in</p>;
+    } else if (workouts === null) {
+        
+    } else {
+        boxes = [
+            boxes,
+            workouts.map((row, index) => {
+                return <WorkoutItem workout={row} />;
+            })
+        ];
+    }
+
     if (redirect !== "") {
         return <Redirect to={redirect} />;
     }
 
     return (
-        <div id="workoutBox">            
-            <div className="workoutItem">
-                <p>Create Workout</p>
-                <div id="createWrapper">
-                    <input
-                        type="text"
-                        name="name"
-                        id="nameInput"
-                        placeholder="Workout Name"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)} />
-                    <div onClick={createWorkout} className="clickable">
-                        <PlusSquare id="createButton" size={30}/>
-                    </div>
-                </div>
-            </div>
+        <div id="workoutBox">
             {boxes}
         </div>
     );
@@ -112,6 +117,8 @@ const NewList = () => {
             console.log(error);
         });
     })
+
+    console.log(workouts);
 
     var boxes;
     if (workouts === null || workouts.length === 0) {
@@ -138,7 +145,7 @@ const PublicList = () => {
                 <MyWorkoutList/>
             </Tab>
             <Tab eventKey="profile" title="Trainer" disabled>
-                
+
             </Tab>
         </Tabs>
     );

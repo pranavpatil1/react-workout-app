@@ -16,8 +16,6 @@ const View = (props) => {
             return;
         }
 
-        console.log(workout, redirect, props);
-
         if (workout === null) {
             serverGetWorkoutById(props.id)
             .then((data) => {

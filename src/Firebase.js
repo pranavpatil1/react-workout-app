@@ -82,6 +82,18 @@ export const serverGetUserWorkouts = async uid => {
     return result;
 };
 
+export const serverDeleteWorkoutById = async id => {
+    if (!id) return;
+    const ref = firestore.collection('workouts').doc(id);
+    const snapshot = await ref.get();
+    if (!snapshot.exists) {
+        return false;
+    } else {
+        ref.delete();
+        return true;
+    }
+}
+
 export const serverGetPublicWorkouts = async () => {
     var result = [];
     const db = firestore.collection('workouts');

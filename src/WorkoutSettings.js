@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 
 class WorkoutSettings extends Component {
     
-
     submitDetails = () => {
         this.props.updateDetails();
     }

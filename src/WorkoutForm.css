@@ -18,11 +18,11 @@
     margin-bottom: 20px;
 }
 
-.row {
+.inputRow {
     display:flex;
 }
 
-.column {
+.inputColumn {
     flex: 50%;
     margin: 2%;
 }

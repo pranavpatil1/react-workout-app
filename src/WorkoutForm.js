@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './WorkoutForm.css'
+import { FormControl, InputGroup } from 'react-bootstrap';
 
 class WorkoutForm extends Component {
     initialState = {
@@ -170,18 +171,22 @@ class WorkoutForm extends Component {
                             placeholder="Circuit 1"
                             onChange={this.handleChange} />
                     <label htmlFor="repeatNum">Length</label>
-                    <div className="input-group length-group">
-                        <input  id="repeatNum" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" />
-                        <span className="input-group-addon">repeats</span>
-                    </div>
+                    <InputGroup className="mb-3 length-group">
+                        <FormControl
+                            id="repeatNum" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2"
+                        />
+                        <InputGroup.Append>
+                            <InputGroup.Text id="basic-addon2">repeats</InputGroup.Text>
+                        </InputGroup.Append>
+                    </InputGroup>
 
                     <input id="repeatSubmitButton" className="btn" type="button" value="Add" onClick={this.addRepeat} />
                     <input id="endRepeatButton" className="btn disabled" type="button" value="End Repeat" onClick={this.endRepeat} />
                 </form>
             </div>
             <h5>Add an element</h5>
-            <div className="container row">
-                <div className="column">
+            <div className="container inputRow">
+                <div className="inputColumn ">
                     <h5 className="no-margin-top">Exercise</h5>
                     <form>
                         <label htmlFor="name">Name</label>
@@ -210,24 +215,32 @@ class WorkoutForm extends Component {
                         </div>
 
                         <label htmlFor="number">Length</label>
-                        <div className="input-group length-group">
-                            <input id="lengthNum" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" />
-                            <span id="lengthLabel" className="input-group-addon">seconds</span>
-                        </div>
-
+                        
+                        <InputGroup className="mb-3 length-group">
+                            <FormControl
+                                id="lengthNum" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2"
+                            />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="lengthLabel">seconds</InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
                         <input id="exerciseAddButton" type="button" value={this.buttonMessage} onClick={this.addElement} />
                     </form>
                 </div>
                 
-                <div className="column">
+                <div className="inputColumn">
                     <h5 className="no-margin-top">Rest Time</h5>
                     <form>
                         <label htmlFor="restTime">Length</label>
-                        <div className="input-group length-group">
-                            <input id="restTime" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" />
-                            <span className="input-group-addon">seconds</span>
-                        </div>
-
+                        
+                        <InputGroup className="mb-3 length-group">
+                            <FormControl
+                                id="restTime" type="number" name="number" className="form-control" onChange={this.handleChange} aria-describedby="basic-addon2" 
+                            />
+                            <InputGroup.Append>
+                                <InputGroup.Text id="lengthLabel">seconds</InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
                         <input id="restAddButton" type="button" value={this.buttonMessage} onClick={this.addRest} />
                     </form>
                 </div>
