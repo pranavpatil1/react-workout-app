@@ -1,0 +1,11 @@
+#editHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#confirmDeleteButton {
+    margin-left: 15px;
+    background-color: #c66;
+    border-color: #c66;
+}
