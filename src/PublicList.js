@@ -23,7 +23,7 @@ const WorkoutItem = (props) => {
                 </Link>
                 
                 <div>
-                    <Link className={"editButton" + (context !== null && el.workout.uid === context.uid ? "" : " hide")} to={"/edit/"+el.id}>
+                    <Link className={"editButton" + (context != null && el.workout.uid === context.uid ? "" : " hide")} to={"/edit/"+el.id}>
                         <PencilSquare size={20}/>
                     </Link>
                     <Link to={"/go/"+el.id}>

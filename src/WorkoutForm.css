@@ -4,6 +4,10 @@
     border-color: grey;
 }
 
+.disabled {
+    pointer-events: none
+}
+
 #time-rep-selector input:hover {
     background: #ddd;
     color: black;

@@ -11,3 +11,18 @@
 .delete {
     width: 50px;
 }
+
+#viewList {
+    padding: 1px 10px;
+    background-color: #6ebbff;
+}
+
+#viewList div div {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: white;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

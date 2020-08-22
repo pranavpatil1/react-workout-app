@@ -68,10 +68,12 @@ class WorkoutForm extends Component {
             isRest: false,
             desc: "",
             isTime: true,
-            number: parseInt(document.getElementById("repeatNum").value)
+            number: parseInt(document.getElementById("repeatNum").value),
+            name: document.getElementById("repeatName").value
         }, () => {
             this.props.addElement(this.state, -1); // change -1 to the latest parent
-            this.buttonMessage = "Add to Repeat x" + this.state.number;
+            if (document.getElementById("repeatSubmitButton").classList.includes("disabled"))
+                this.buttonMessage = "Add to Repeat x" + this.state.number;
         });
     }
 
@@ -106,7 +108,8 @@ class WorkoutForm extends Component {
             isRepeat: false,
             isRest: false,
             number: parseFloat(document.getElementById("lengthNum").value),
-            isTime: document.getElementById("time1").classList.contains("selected")
+            isTime: document.getElementById("time1").classList.contains("selected"),
+            name: document.getElementById("exerciseName").value
         }, () => {
             this.props.addElement(this.state, this.repeatSection); // change -1 to the latest parent
         });
@@ -164,12 +167,12 @@ class WorkoutForm extends Component {
             <div className="container">
                 <form>
                     <label htmlFor="name">Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            id="repeatName"
-                            placeholder="Circuit 1"
-                            onChange={this.handleChange} />
+                    <input
+                        type="text"
+                        name="name"
+                        id="repeatName"
+                        placeholder="Circuit 1"
+                        onChange={this.handleChange} />
                     <label htmlFor="repeatNum">Length</label>
                     <InputGroup className="mb-3 length-group">
                         <FormControl

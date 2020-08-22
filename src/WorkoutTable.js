@@ -1,82 +1,123 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './WorkoutTable.css'
-
-const WorkoutTableHeader = () => {
-    return (
-      <thead>
-        <tr>
-          <th colSpan="2">Name</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-    )
-  }
+import { ReactSortable } from "react-sortablejs";
+import { Trash } from 'react-bootstrap-icons';
 
     const WorkoutTableBody = (props) => {
-        // handles the keys needing to include the children of repeat elements
-        var shift = 0;
-        var name, desc;
-        const rows = props.workoutData.data.map((row, index) => {
+        const [list, setList] = useState(null);
+
+        const toString = (row) => {
+            var name;
             if (row.isRepeat) {
-                name = "Repeat x" + row.number;
-                desc = row.name;
+                name = row.name + ". Repeat x" + row.number;
             } else if (!row.isRest) {
                 name = row.name;
                 if (row.isTime) {
-                    desc = row.number + " seconds";
+                    name += ". " + row.number + " seconds";
                 } else {
-                    desc = row.number + " reps";
+                    name += ". " + row.number + " reps";
                 }
                 if (row.desc !== "") {
-                    desc += ". " + row.desc;
+                    name += ". " + row.desc;
                 }
             } else {
-                name = "Rest";
-                desc = row.number + " seconds";
+                name = "Rest. " + row.number + " seconds";
             }
-            var nameMain = <td key={index + 1000}>{(shift > 0 ? "in repeat: " : "") + name}</td>;
-            var namePlaceholder = <td key={index + 2000} className="space"></td>;
-            var other = [
-                <td key={index + 3000}>{desc}</td>,
-            ];
-            // placeholder is separate so that some elements are indented in
-            // this is temporary, will be replaced by SortableJS
-            var fragment;
-            if (shift > 0) {
-                fragment = [namePlaceholder, nameMain, ...other];
-            } else {
-                fragment = [nameMain, namePlaceholder, ...other];
+            return name;
+        }
+
+        useEffect(() => {
+            var parsed = [];
+            var row, name;
+            for (var index = 0; index < props.workoutData.data.length; index ++) {
+                row = props.workoutData.data[index];
+                name = toString(row);
+                if (row.children === 0) {
+                    parsed.push({
+                        "id": index,
+                        "name": name,
+                        "info": row,
+                        "subList": null
+                    });
+                } else {
+                    var endChild = index + row.children; // this index is the last child
+                    // remember, this is a reference
+                    var subList = [];
+                    parsed.push({
+                        "id": index,
+                        "name": name,
+                        "info": row,
+                        "subList": subList
+                    });
+                    while (index < endChild) {
+                        row = props.workoutData.data[index];
+                        name = toString(row);
+                        index ++;
+                        subList.push({
+                            "id": index,
+                            "name": name,
+                            "info": row,
+                            "subList": null
+                        });
+                    }
+                }
             }
-            const main = (
-                <tr key={index} className={`workoutRow${row.isRepeat ? " repeat": ""}${shift > 0 ? " child": ""}`}>
-                    {fragment}
-                </tr>
-            )
-            if (row.isRepeat) {
-                shift = row.children;
-            } else {
-                shift --;
-            }
-            return main;
-        })
-        return <tbody>{rows}</tbody>
+            setList(parsed);
+        }, [props.workoutData.data]);
+
+        if (list === null) {
+            return <div id="viewList"></div>
+        }
+
+        return (
+            <div id="viewList">
+                <ReactSortable 
+                    list={list} 
+                    setList={(list) => {setList(list); var a=list.filter(x => x.chosen); if (a.length > 0) console.log(a[0].name)}}
+                >
+                    {list.map(item => {
+                        if (item.subList === null) {
+                            return (
+                                <div key={item.id}>
+                                    {item.name}
+                                    <Trash />
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <ReactSortable 
+                                    list={item.subList} 
+                                    setList={(list) => {item.subList = list;}}
+                                >
+                                    {item.subList.map(item => {
+                                        return (
+                                            <div key={item.id}>
+                                                {item.name}
+                                                <Trash />
+                                            </div>
+                                        );
+                                    })}
+                                </ReactSortable>
+                            );
+                        }
+                        
+                    })}
+                </ReactSortable>
+            </div>
+        );
     }
 
 const WorkoutTable = (props) => {
     const { workoutData } = props
 
     if (workoutData !== null) {
-        console.log(workoutData)
         return (
-            <table>
-              <WorkoutTableHeader />
               <WorkoutTableBody 
                   workoutData={workoutData}
               />
-            </table>
           )
     } else {
-        return <table></table>;
+        return <div></div>;
     }
     
 }
